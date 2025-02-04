@@ -1,22 +1,20 @@
 package social.godmode.FillerAPI;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.UUID;
 
 @Getter
-public class GamePlayer {
+public class FillerPlayer {
     public Filler filler;
     public UUID playerUUID;
     public FillerColor color;
 
     public ArrayList<FillerBlock> ownedBlocks = new ArrayList<>();
 
-    public GamePlayer(Filler filler, UUID playerUUID, FillerColor color, FillerBlock startingBlock) {
+    public FillerPlayer(Filler filler, UUID playerUUID, FillerColor color, FillerBlock startingBlock) {
         this.filler = filler;
         this.playerUUID = playerUUID;
         this.color = color;
@@ -29,17 +27,7 @@ public class GamePlayer {
             block.setColor(color);
         }
 
-        ListIterator<FillerBlock> iterator = ownedBlocks.listIterator();
-//        while (iterator.hasNext()) {
-//            FillerBlock block = iterator.next();
-//            ArrayList<FillerBlock> surroundings = filler.getSurroundings(block);
-//            for (FillerBlock surrounding : surroundings) {
-//                if (surrounding.getColor() == color && !ownedBlocks.contains(surrounding)) {
-//                    ownedBlocks.add(surrounding);
-//                }
-//            }
-//        }
-        GamePlayer otherPlayer = getOtherPlayer();
+        FillerPlayer otherPlayer = getOtherPlayer();
 
         int size = ownedBlocks.size();
         for (int i = 0; i < size; i++) {
@@ -59,7 +47,7 @@ public class GamePlayer {
         }
     }
 
-    public GamePlayer getOtherPlayer() {
+    public FillerPlayer getOtherPlayer() {
         return filler.getPlayers()[filler.getCurrentPlayerIndex() == 0 ? 1 : 0];
     }
 

@@ -10,7 +10,7 @@ import java.util.UUID;
 @Getter @Setter
 public class Filler {
     private final FillerBlock[][] board;
-    private GamePlayer[] players;
+    private FillerPlayer[] players;
     private int currentPlayerIndex;
     private boolean gameEnded;
 
@@ -18,23 +18,28 @@ public class Filler {
         this.board = new FillerBlock[8][8];
         fillBoard();
         if (playerUUIDs.length != 2) throw new IllegalArgumentException("Filler game must have exactly 2 players");
-        this.players = new GamePlayer[2];
+        this.players = new FillerPlayer[2];
 
         // player 1 gets bottom left corner
-        players[0] = new GamePlayer(this, playerUUIDs[0], board[0][0].getColor(), board[0][0]);
+        players[0] = new FillerPlayer(this, playerUUIDs[0], board[0][0].getColor(), board[0][0]);
         // player 2 gets top right corner
-        players[1] = new GamePlayer(this, playerUUIDs[1], board[7][7].getColor(), board[7][7]);
+        players[1] = new FillerPlayer(this, playerUUIDs[1], board[7][7].getColor(), board[7][7]);
+
+        while (players[1].color == players[0].color) {
+            // pick a random color not in player[1]'s surroundings
+            players[1].color = players[2].getAvailableColors().get((int) (Math.random() * players[2].getAvailableColors().size()));
+        }
 
         currentPlayerIndex = 0;
         gameEnded = false;
     }
 
-    public GamePlayer getWinner() {
+    public FillerPlayer getWinner() {
         if (!gameEnded) return null;
         return players[0].getOwnedBlocks().size() > players[1].getOwnedBlocks().size() ? players[0] : players[1];
     }
 
-    public GamePlayer getCurrentPlayer() {
+    public FillerPlayer getCurrentPlayer() {
         return players[currentPlayerIndex];
     }
 

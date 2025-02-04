@@ -1,10 +1,9 @@
 import social.godmode.FillerAPI.Filler;
 import social.godmode.FillerAPI.FillerBlock;
 import social.godmode.FillerAPI.FillerColor;
-import social.godmode.FillerAPI.GamePlayer;
+import social.godmode.FillerAPI.FillerPlayer;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class Main {
@@ -14,14 +13,14 @@ public class Main {
         logBoard(filler);
 
         while (!filler.isGameEnded()) {
-            GamePlayer currentPlayer = filler.getCurrentPlayer();
+            FillerPlayer currentPlayer = filler.getCurrentPlayer();
             // get random color
             FillerColor color = currentPlayer.getAvailableColors().get((int) (Math.random() * currentPlayer.getAvailableColors().size()));
             currentPlayer.turn(color);
             logBoard(filler);
         }
 
-        GamePlayer winner = filler.getWinner();
+        FillerPlayer winner = filler.getWinner();
         System.out.println("Winner: " + winner.getPlayerUUID());
 
 //        GamePlayer currentPlayer = filler.getCurrentPlayer();
