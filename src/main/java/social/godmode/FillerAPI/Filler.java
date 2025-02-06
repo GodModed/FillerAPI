@@ -28,6 +28,7 @@ public class Filler {
         while (players[1].color == players[0].color) {
             // pick a random color not in player[1]'s surroundings
             players[1].color = players[1].getAvailableColors().get((int) (Math.random() * players[1].getAvailableColors().size()));
+            board[7][7].setColor(players[1].color);
         }
 
         currentPlayerIndex = 0;
