@@ -15,10 +15,11 @@ public class Filler {
     private int currentPlayerIndex;
     private boolean gameEnded;
     private Random random;
+    private final long seed;
 
     public Filler(long seed, UUID... playerUUIDs) {
-
         random = new Random(seed);
+        this.seed = seed;
 
         this.board = new FillerBlock[8][8];
         fillBoard();
