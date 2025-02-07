@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 import java.util.UUID;
 
 @Getter @Setter
@@ -13,8 +14,12 @@ public class Filler {
     private FillerPlayer[] players;
     private int currentPlayerIndex;
     private boolean gameEnded;
+    private Random random;
 
-    public Filler(UUID... playerUUIDs) {
+    public Filler(long seed, UUID... playerUUIDs) {
+
+        random = new Random(seed);
+
         this.board = new FillerBlock[8][8];
         fillBoard();
         if (playerUUIDs.length != 2) throw new IllegalArgumentException("Filler game must have exactly 2 players");
@@ -27,12 +32,16 @@ public class Filler {
 
         while (players[1].color == players[0].color) {
             // pick a random color not in player[1]'s surroundings
-            players[1].color = players[1].getAvailableColors().get((int) (Math.random() * players[1].getAvailableColors().size()));
+            players[1].color = players[1].getAvailableColors().get((int) (random.nextDouble() * players[1].getAvailableColors().size()));
             board[7][7].setColor(players[1].color);
         }
 
         currentPlayerIndex = 0;
         gameEnded = false;
+    }
+
+    public Filler(UUID... playerUUIDs) {
+        this(new Random().nextLong(), playerUUIDs);
     }
 
     public FillerPlayer getWinner() {
@@ -48,7 +57,7 @@ public class Filler {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 do {
-                    board[i][j] = new FillerBlock(FillerColor.getRandomColor(), i, j);
+                    board[i][j] = new FillerBlock(FillerColor.getRandomColor(random), i, j);
                 } while (surroundingsHaveSameColor(board[i][j]));
             }
         }

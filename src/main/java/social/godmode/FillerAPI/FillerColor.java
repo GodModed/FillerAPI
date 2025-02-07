@@ -3,6 +3,7 @@ package social.godmode.FillerAPI;
 import lombok.AllArgsConstructor;
 
 import java.awt.*;
+import java.util.Random;
 
 @AllArgsConstructor
 public enum FillerColor {
@@ -13,9 +14,9 @@ public enum FillerColor {
     PURPLE(new Color(121, 86, 170)),
     BLACK(new Color(66, 64, 67));
 
-    public Color color;
+    public final Color color;
 
-    public static FillerColor getRandomColor() {
-        return values()[(int) (Math.random() * values().length)];
+    public static FillerColor getRandomColor(Random random) {
+        return values()[(int) (random.nextDouble() * values().length)];
     }
 }
